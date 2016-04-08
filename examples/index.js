@@ -13,6 +13,10 @@
   var script1 = new vm.Script(code1);
   var script2 = new vm.Script(code2);
 
+  console.log('vm.isContext');
+  console.log('Sandbox: ' + vm.isContext(sandbox));
+  console.log('Not sandbox: ' + vm.isContext({}));
+
   console.log('Script.runInNewContext');
   console.log(script1.runInNewContext());
 

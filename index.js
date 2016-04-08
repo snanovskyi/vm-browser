@@ -1,5 +1,6 @@
 (function () {
   var vm = {};
+  var contextifiedSandboxes = [];
 
   function createIFrame() {
     var iframe = document.createElement('iframe');
@@ -7,13 +8,8 @@
     return iframe;
   }
 
-  function getEval(context) {
-    return context.execScript ? context.execScript : context.eval;
-  }
-
-  function runCodeInNewContext(code, sandbox) {
+  function createIFrameWithContext(sandbox) {
     var iframe = createIFrame();
-    var result;
     var key;
     document.body.appendChild(iframe);
     if (sandbox) {
@@ -22,8 +18,18 @@
           iframe.contentWindow[key] = sandbox[key];
         }
       }
+      contextifiedSandboxes.push(sandbox);
     }
-    result = getEval(iframe.contentWindow)(code);
+    return iframe;
+  }
+
+  function getEval(context) {
+    return context.execScript ? context.execScript : context.eval;
+  }
+
+  function runCodeInNewContext(code, sandbox) {
+    var iframe = createIFrameWithContext(sandbox);
+    var result = getEval(iframe.contentWindow)(code);
     document.body.removeChild(iframe);
     return result;
   }
@@ -54,28 +60,20 @@
   vm.Script = Script;
 
   vm.createContext = function (sandbox) {
-    var iframe = createIFrame();
-    var key;
-    document.body.appendChild(iframe);
-    if (sandbox) {
-      for (key in sandbox) {
-        if (sandbox.hasOwnProperty(key)) {
-          iframe.contentWindow[key] = sandbox[key];
-        }
-      }
-    }
-    return iframe.contentWindow;
+    return createIFrameWithContext(sandbox).contentWindow;
   };
 
   vm.isContext = function (sandbox) {
+    return contextifiedSandboxes.indexOf(sandbox) !== -1;
   };
 
   vm.runInContext = function (code, context) {
     return runCodeInContext(code, context);
   };
 
-  vm.runInDebugContext = function (code) {
-  };
+  // Not possible in browser?
+  // vm.runInDebugContext = function (code) {
+  // };
 
   vm.runInNewContext = function (code, sandbox) {
     return runCodeInNewContext(code, sandbox);
