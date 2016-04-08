@@ -11,13 +11,16 @@ You can use it in 2 ways:
 
 ## API
 Make sure to check [examples](https://github.com/sun1x/vm-browser/tree/master/examples)
-- #### vm.Script
-  - #### new vm.Script(code)
+- **vm.Script**
+  - **new vm.Script(code)**
+
     ```javascript
     var code = 'console.log("Hello");';
     var script = new vm.Script(code);
     ```
-  - #### script.runInContext(context)
+
+  - **script.runInContext(context)**
+
     ```javascript
     var code = 'console.log(a);';
     var sandbox = { a: 1 };
@@ -25,46 +28,60 @@ Make sure to check [examples](https://github.com/sun1x/vm-browser/tree/master/ex
     var script = new vm.Script(code);
     script.runInContext(context);
     ```
-  - #### script.runInNewContext(sandbox)
+
+  - **script.runInNewContext(sandbox)**
+
     ```javascript
     var code = 'console.log(a);';
     var sandbox = { a: 1 };
     var script = new vm.Script(code);
     script.runInNewContext(sandbox);
     ```
-  - #### script.runInThisContext()
+
+  - **script.runInThisContext()**
+
     ```javascript
     var code = 'console.log(someVar);';
     var script = new vm.Script(code);
     window.someVar = 1;
     script.runInThisContext();
     ```
-- #### vm.createContext(sandbox)
+
+- **vm.createContext(sandbox)**
+
   ```javascript
   var sandbox = { a: 5, b: 10, c: 'something' };
   var context = vm.createContext(sandbox);
   ```
-- #### vm.isContext(sandbox)
+
+- **vm.isContext(sandbox)**
+
   ```javascript
   var sandbox = { a: 1 };
   var context = vm.createContext(sandbox);
   vm.isContext(sandbox); // => true
   vm.isContext({}); // => false
   ```
-- #### vm.runInContext(code, context)
+
+- **vm.runInContext(code, context)**
+
   ```javascript
   var code = 'console.log(a);';
   var sandbox = { a: 1 };
   var context = vm.createContext(sandbox);
   vm.runInContext(code, context);
   ```
-- #### vm.runInNewContext(code, sandbox)
+
+- **vm.runInNewContext(code, sandbox)**
+
   ```javascript
   var code = 'console.log(a)';
   var sandbox = { a: 1 };
   vm.runInNewContext(code, sandbox);
   ```
-- #### vm.runInThisContext(code)
+
+- **vm.runInThisContext(code)**
+
   ```javascript
   var code = 'console.log(someVar)';
   window.someVar = 1;
@@ -72,15 +89,20 @@ Make sure to check [examples](https://github.com/sun1x/vm-browser/tree/master/ex
   ```
 
 ## Development
-- Install
+- **Install**
+
   ```
   $ npm install
   ```
-- Lint
+
+- **Lint**
+
   ```
   $ npm run lint
   ```
-- Build
+
+- **Build**
+
   ```
   $ npm run build
   ```
