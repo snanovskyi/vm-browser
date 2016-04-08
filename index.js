@@ -38,6 +38,7 @@
   };
 
   Script.prototype.runInThisContext = function () {
+    return runCodeInContext(this.code, window);
   };
 
   vm.Script = Script;
@@ -68,6 +69,7 @@
   };
 
   vm.runInThisContext = function (code) {
+    return runCodeInContext(code, window);
   };
 
   window.vm = vm;
