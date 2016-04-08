@@ -21,11 +21,16 @@
     return result;
   }
 
+  function runCodeInContext(code, context) {
+    return context.eval(code);
+  }
+
   function Script(code) {
     this.code = code;
   }
 
   Script.prototype.runInContext = function (context) {
+    return runCodeInContext(this.code, context);
   };
 
   Script.prototype.runInNewContext = function (sandbox) {
@@ -38,12 +43,21 @@
   vm.Script = Script;
 
   vm.createContext = function (sandbox) {
+    var iframe = createIFrame();
+    document.body.appendChild(iframe);
+    if (sandbox) {
+      Object.keys(sandbox).forEach(function (key) {
+        iframe.contentWindow[key] = sandbox[key];
+      });
+    }
+    return iframe.contentWindow;
   };
 
   vm.isContext = function (sandbox) {
   };
 
   vm.runInContext = function (code, context) {
+    return runCodeInContext(code, context);
   };
 
   vm.runInDebugContext = function (code) {
