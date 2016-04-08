@@ -2,6 +2,23 @@
   var vm = {};
   var contextifiedSandboxes = [];
 
+  // Some browsers don't know about Array.prototype.indexOf
+  function indexOf(array, element) {
+    var result = -1;
+    var i;
+    if (!Array.prototype.indexOf) {
+      for (i = 0; i < array.length; i++) {
+        if (array[i] === element) {
+          result = i;
+          break;
+        }
+      }
+    } else {
+      result = array.indexOf(element);
+    }
+    return result;
+  }
+
   function createIFrame() {
     var iframe = document.createElement('iframe');
     iframe.style.display = 'none';
@@ -64,7 +81,7 @@
   };
 
   vm.isContext = function (sandbox) {
-    return contextifiedSandboxes.indexOf(sandbox) !== -1;
+    return indexOf(contextifiedSandboxes, sandbox) !== -1;
   };
 
   vm.runInContext = function (code, context) {
