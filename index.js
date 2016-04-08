@@ -7,6 +7,10 @@
     return iframe;
   }
 
+  function getEval(context) {
+    return context.execScript ? context.execScript : context.eval;
+  }
+
   function runCodeInNewContext(code, sandbox) {
     var iframe = createIFrame();
     var result;
@@ -19,7 +23,7 @@
         }
       }
     }
-    result = iframe.contentWindow.eval(code);
+    result = getEval(iframe.contentWindow)(code);
     document.body.removeChild(iframe);
     return result;
   }
@@ -28,7 +32,7 @@
     if (!context) {
       throw new Error('Context cannot be undefined');
     }
-    return context.eval(code);
+    return getEval(context)(code);
   }
 
   function Script(code) {
