@@ -10,11 +10,14 @@
   function runCodeInNewContext(code, sandbox) {
     var iframe = createIFrame();
     var result;
+    var key;
     document.body.appendChild(iframe);
     if (sandbox) {
-      Object.keys(sandbox).forEach(function (key) {
-        iframe.contentWindow[key] = sandbox[key];
-      });
+      for (key in sandbox) {
+        if (sandbox.hasOwnProperty(key)) {
+          iframe.contentWindow[key] = sandbox[key];
+        }
+      }
     }
     result = iframe.contentWindow.eval(code);
     document.body.removeChild(iframe);
@@ -22,6 +25,9 @@
   }
 
   function runCodeInContext(code, context) {
+    if (!context) {
+      throw new Error('Context cannot be undefined');
+    }
     return context.eval(code);
   }
 
@@ -45,11 +51,14 @@
 
   vm.createContext = function (sandbox) {
     var iframe = createIFrame();
+    var key;
     document.body.appendChild(iframe);
     if (sandbox) {
-      Object.keys(sandbox).forEach(function (key) {
-        iframe.contentWindow[key] = sandbox[key];
-      });
+      for (key in sandbox) {
+        if (sandbox.hasOwnProperty(key)) {
+          iframe.contentWindow[key] = sandbox[key];
+        }
+      }
     }
     return iframe.contentWindow;
   };
