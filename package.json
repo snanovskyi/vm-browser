@@ -1,0 +1,29 @@
+{
+  "name": "vm-browser",
+  "version": "1.0.0",
+  "description": "Browser polyfill for Node.js VM",
+  "scripts": {
+    "lint": "eslint index.js",
+    "build": "mkdir dist & uglifyjs index.js -o dist/vm.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sun1x/vm-browser.git"
+  },
+  "keywords": [
+    "polyfill",
+    "vm",
+    "browser"
+  ],
+  "author": "Sergey Nanovsky <sergey.nanovsky@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sun1x/vm-browser/issues"
+  },
+  "homepage": "https://github.com/sun1x/vm-browser#readme",
+  "devDependencies": {
+    "eslint": "^2.7.0",
+    "eslint-config-airbnb": "^6.2.0",
+    "uglify-js": "^2.6.2"
+  }
+}
