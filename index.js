@@ -2,23 +2,6 @@
   var vm = {};
   var contextifiedSandboxes = [];
 
-  // Some browsers don't know about Array.prototype.indexOf
-  function indexOf(array, element) {
-    var result = -1;
-    var i;
-    if (!Array.prototype.indexOf) {
-      for (i = 0; i < array.length; i++) {
-        if (array[i] === element) {
-          result = i;
-          break;
-        }
-      }
-    } else {
-      result = array.indexOf(element);
-    }
-    return result;
-  }
-
   function createIFrame() {
     var iframe = document.createElement('iframe');
     iframe.style.display = 'none';
@@ -40,13 +23,9 @@
     return iframe;
   }
 
-  function getEval(context) {
-    return context.execScript ? context.execScript : context.eval;
-  }
-
   function runCodeInNewContext(code, sandbox) {
     var iframe = createIFrameWithContext(sandbox);
-    var result = getEval(iframe.contentWindow)(code);
+    var result = iframe.contentWindow.eval(code);
     document.body.removeChild(iframe);
     return result;
   }
@@ -55,7 +34,7 @@
     if (!context) {
       throw new Error('Context cannot be undefined');
     }
-    return getEval(context)(code);
+    return context.eval(code);
   }
 
   function Script(code) {
@@ -81,16 +60,16 @@
   };
 
   vm.isContext = function (sandbox) {
-    return indexOf(contextifiedSandboxes, sandbox) !== -1;
+    return contextifiedSandboxes.indexOf(sandbox) !== -1;
   };
 
   vm.runInContext = function (code, context) {
     return runCodeInContext(code, context);
   };
 
-  // Not possible in browser?
-  // vm.runInDebugContext = function (code) {
-  // };
+  vm.runInDebugContext = function () {
+    throw new Error('vm.runInDebugContext(code) does not work in browsers');
+  };
 
   vm.runInNewContext = function (code, sandbox) {
     return runCodeInNewContext(code, sandbox);

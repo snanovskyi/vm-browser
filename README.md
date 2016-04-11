@@ -2,7 +2,7 @@
 Browser polyfill for Node.js VM
 
 ## Browser compatibility
-Works in all modern browsers(Internet Explorer 8+)
+Works in all modern browsers(Internet Explorer 10+)
 
 ## Usage
 You can use it in 2 ways:
@@ -71,6 +71,10 @@ Make sure to check [examples](https://github.com/sun1x/vm-browser/tree/master/ex
   var context = vm.createContext(sandbox);
   vm.runInContext(code, context);
   ```
+
+- **vm.runInDebugContext(code)**
+
+  Does not work in browsers. Throws Error.
 
 - **vm.runInNewContext(code, sandbox)**
 
