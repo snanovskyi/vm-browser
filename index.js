@@ -78,6 +78,10 @@
   vm.runInThisContext = function (code) {
     return runCodeInContext(code, window);
   };
+  
+  vm.createScript = function (code) {
+    return new vm.Script(code);
+  };
 
   window.vm = vm;
 }());
